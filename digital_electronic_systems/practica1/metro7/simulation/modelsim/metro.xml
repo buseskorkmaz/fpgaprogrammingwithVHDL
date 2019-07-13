@@ -1,0 +1,14 @@
+<interfaceDefinition version='1.2' language='vhdl' kind='component' name='metro'>
+  <useClause path='ieee.std_logic_1164.all' />
+  <useClause path='cycloneiii.cycloneiii_components.all' />
+  <useClause path='altera.altera_primitives_components.all' />
+    <portList>
+
+      <port name='led' direction='out' type='std_logic_vector (3 downto 0)' kind='array' library='work' package='metro' packedDimension='(3 downto 0)' />
+      <port name='clk_hf' direction='in' type='STD_LOGIC' kind='' />
+      <port name='ne_origen' direction='in' type='STD_LOGIC' kind='' />
+      <port name='ne_final' direction='in' type='STD_LOGIC' kind='' />
+      <port name='nsensor' direction='in' type='STD_LOGIC' kind='' />
+
+    </portList>
+</interfaceDefinition>

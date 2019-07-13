@@ -1,0 +1,22 @@
+<interfaceDefinition version='1.2' language='vhdl' kind='component' name='csporta'>
+  <useClause path='ieee.NUMERIC_STD.all' />
+  <useClause path='ieee.std_logic_1164.all' />
+    <macroList>
+
+      <macro name='versio' type='STRING' kind='array' library='std' package='STANDARD' initializer='"simulacio"' />
+
+    </macroList>
+    <portList>
+
+      <port name='clk50m' direction='in' type='STD_LOGIC' kind='' />
+      <port name='fci' direction='in' type='STD_LOGIC' kind='' />
+      <port name='fca' direction='in' type='STD_LOGIC' kind='' />
+      <port name='npob' direction='in' type='STD_LOGIC' kind='' />
+      <port name='cmd' direction='in' type='STD_LOGIC' kind='' />
+      <port name='pia' direction='out' type='STD_LOGIC' kind='' />
+      <port name='pai' direction='out' type='STD_LOGIC' kind='' />
+      <port name='enp' direction='out' type='STD_LOGIC' kind='' />
+      <port name='nledet' direction='out' type='STD_LOGIC' kind='' />
+
+    </portList>
+</interfaceDefinition>

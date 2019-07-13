@@ -1,0 +1,2 @@
+create_generated_clock -name clk100 -divide_by 2 -source clkin
+derive_clock_uncertainty

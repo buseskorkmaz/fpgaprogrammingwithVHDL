@@ -1,0 +1,6 @@
+
+State Machine - |cronometre|estat_control
+Name estat_control.marxa estat_control.aturat_mem estat_control.aturat_actual 
+estat_control.aturat_actual 0 0 0 
+estat_control.aturat_mem 0 1 1 
+estat_control.marxa 1 0 1 

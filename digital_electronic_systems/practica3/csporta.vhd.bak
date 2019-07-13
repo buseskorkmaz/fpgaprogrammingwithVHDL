@@ -1,0 +1,91 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity csporta is
+  generic
+	(
+		versio : string := "simulacio" -- "simulacio" o "experimentacio"
+	);
+	port
+	(
+		clk50m : in std_logic;
+		fci, fca, npob, cmd : in std_logic;
+		pia, pai, enp, nledet : out std_logic
+	);
+end csporta;
+
+architecture funcional of csporta is
+signal clk400 : std_logic;
+signal qcmd : std_logic;
+signal qfci, qfca : std_logic;
+signal qpob, qpobf : std_logic;
+signal fiinici_qpof : std_logic := '0';
+????????????????????????????????????????????????????
+????????????????????????????????????????????????????
+begin
+--
+-- divisor de frequencia
+	divf1 : process (clk50m)
+	constant limit : integer := 125000/2-1;
+	variable cntdivf1 : integer range limit downto 0 := 0;
+	begin
+		if (versio = "experimentacio") then
+			if clk50m'event and clk50m = '1' then
+				if cntdivf1 /= limit then
+					cntdivf1 := cntdivf1+1;
+				else
+					cntdivf1 := 0;
+					clk400 <= not clk400;
+				end if;
+			end if;
+		else
+			clk400 <= clk50m;
+		end if;
+	end process divf1;
+--
+-- sincronitzacio de les entrades dels detectors i del polsador
+	sincr : process (clk400)
+	begin
+		if clk400'event and clk400 = '1' then
+			qfci <= fci;
+			qfca <= fca;
+			qpob <= not npob;
+			qcmd <= cmd;
+		end if;
+	end process sincr;
+--
+-- filtrat de la indicacio de porta oberta
+filtpob : process (clk400)
+variable cntfpob : integer range 15 downto 0 := 0;
+begin
+	if clk400'event and clk400 = '1' then
+		if fiinici_qpof = '1' then
+			if qpob = qpobf then
+				cntfpob := 0;
+			else
+				cntfpob := (cntfpob+1) mod 16;
+					if cntfpob = 0 then
+						qpobf <= qpob;
+					end if;
+			end if;
+		else
+			qpobf <= qpob;
+			if qpob = qpobf then
+				cntfpob := (cntfpob+1) mod 16;
+				if cntfpob = 0 then
+					fiinici_qpof <= '1';
+				end if;
+			else
+				cntfpob := 0;
+			end if;
+		end if;
+	end if;
+end process filtpob;
+--
+-- automat porta
+porta : process (clk400)
+????????????????????????????????????????????????????
+????????????????????????????????????????????????????
+end process porta;
+--
+end funcional;

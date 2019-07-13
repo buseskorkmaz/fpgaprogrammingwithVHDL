@@ -1,0 +1,205 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library bibsed;
+use bibsed.moduls.all;
+entity cronometre is
+ generic (
+ versio : string := "simulacio" -- "simulacio" o "experimentacio"
+ );
+ port (
+ clkin : in std_logic;
+ nstart_nstop : in std_logic;
+ nactual_nmem : in std_logic;
+ nss_desenes_s : out std_logic_vector(6 downto 0);
+ nss_unitats_s : out std_logic_vector(6 downto 0);
+ nss_desenes_c : out std_logic_vector(6 downto 0);
+ nss_unitats_c : out std_logic_vector(6 downto 0);
+ npd_desenes_s : out std_logic;
+ npd_unitats_s : out std_logic;
+ npd_desenes_c : out std_logic;
+ npd_unitats_c : out std_logic
+ );
+end cronometre;
+architecture estructural_funcional of cronometre is
+type automat_control is (aturat_actual, aturat_mem, marxa);
+signal clk100 : std_logic := '0';
+signal nstart_nstop_s : std_logic := '1';
+signal nactual_nmem_s : std_logic := '1';
+signal nstart_nstop_sa : std_logic := '1';
+signal nactual_nmem_sa : std_logic := '1';
+signal nstart_nstop_fb : std_logic;
+signal nactual_nmem_fb : std_logic;
+signal estat_control : automat_control := aturat_actual;
+signal clr_compt_reg : std_logic;
+signal en_comptador : std_logic;
+signal ld_registre : std_logic := '0';
+signal sel_actual : std_logic;
+signal desenes_s_act : unsigned(3 downto 0) := "0000";
+signal unitats_s_act : unsigned(3 downto 0) := "0000";
+signal desenes_c_act : unsigned(3 downto 0) := "0000";
+signal unitats_c_act : unsigned(3 downto 0) := "0000";
+signal desenes_s_mem : unsigned(3 downto 0) := "0000";
+signal unitats_s_mem : unsigned(3 downto 0) := "0000";
+signal desenes_c_mem : unsigned(3 downto 0) := "0000";
+signal unitats_c_mem : unsigned(3 downto 0) := "0000";
+signal desenes_s : unsigned(3 downto 0);
+signal unitats_s : unsigned(3 downto 0);
+signal desenes_c : unsigned(3 downto 0);
+signal unitats_c : unsigned(3 downto 0);
+begin
+--
+-- components (canviadors de codi bcd a set-segments)
+ cc_d_s : bcd_err_nss port map (std_logic_vector(desenes_s),nss_desenes_s);
+ cc_u_s : bcd_err_nss port map (std_logic_vector(unitats_s),nss_unitats_s);
+ cc_d_c : bcd_err_nss port map (std_logic_vector(desenes_c),nss_desenes_c);
+ cc_u_c : bcd_err_nss port map (std_logic_vector(unitats_c),nss_unitats_c);
+--
+-- divisor de frequencia
+ divf : process (clkin)
+ variable divlimit : integer range 2**18-1 downto 0 := 0;
+ begin
+ if clkin'event and clkin = '1' then
+ if (versio = "experimentacio") then -- en experimentacio, clkin = 50 MHz
+ if divlimit /= 249999 then -- cal dividir per 500.000 (2*250.000)
+ divlimit := divlimit + 1;
+ else
+ divlimit := 0;
+ clk100 <= not clk100; -- clk100 = 100 Hz
+ end if;
+ else -- en simulacio, clkin = 50 MHz
+ clk100 <= not clk100; -- clk100 = 25 MHz
+ end if;
+ end if;
+ end process divf;
+--
+-- sincronitzacio de les entrades
+ sinc : process (clk100)
+ begin
+ if clk100'event and clk100 = '1' then
+ nstart_nstop_s <= nstart_nstop;
+ nactual_nmem_s <= nactual_nmem;
+ end if;
+ end process sinc;
+--
+-- deteccio dels flancs de baixada de les entrades sincronitzades
+ flancs : process (clk100)
+ begin
+ if clk100'event and clk100 = '1' then
+ nstart_nstop_sa <= nstart_nstop_s;
+ nactual_nmem_sa <= nactual_nmem_s;
+ end if;
+ end process flancs;
+ nstart_nstop_fb <= nstart_nstop_sa and not nstart_nstop_s;
+ nactual_nmem_fb <= nactual_nmem_sa and not nactual_nmem_s;
+--
+-- automat de control
+ control : process (clk100)
+ begin
+ if clk100'event and clk100 = '1' then
+ case estat_control is
+ when aturat_actual =>
+ if nstart_nstop_fb = '1' then
+ estat_control <= marxa;
+ elsif nactual_nmem_fb = '1' then
+ estat_control <= aturat_mem;
+ end if;
+ when aturat_mem =>
+ if nstart_nstop_fb = '1' then
+ estat_control <= marxa;
+ elsif nactual_nmem_fb = '1' then
+ estat_control <= aturat_actual;
+ end if;
+ when marxa =>
+ if nstart_nstop_fb = '1' then
+ estat_control <= aturat_actual;
+ end if;
+ end case;
+ if estat_control = marxa and nactual_nmem_fb = '1' then
+ ld_registre <= '1';
+ else
+ ld_registre <= '0';
+ end if;
+ end if;
+ end process control;
+ clr_compt_reg <= '1' when estat_control /= marxa and
+ nstart_nstop_fb = '1' else
+ '0';
+ en_comptador <= '1' when estat_control = marxa else
+ '0';
+ sel_actual <= '1' when estat_control /= aturat_mem else
+ '0';
+--
+-- comptador
+ comptador : process (clk100)
+ begin
+ if clk100'event and clk100 = '1' then
+ if clr_compt_reg = '1' then
+ desenes_s_act <= "0000";
+ unitats_s_act <= "0000";
+ desenes_c_act <= "0000";
+ unitats_c_act <= "0000";
+ elsif en_comptador = '1' and desenes_s_act /= "1111" then
+ if unitats_c_act /= "1001" then
+ unitats_c_act <= unitats_c_act + 1;
+ else
+ unitats_c_act <= "0000";
+ if desenes_c_act /= "1001" then
+ desenes_c_act <= desenes_c_act + 1;
+ else
+ desenes_c_act <= "0000";
+ if unitats_s_act /= "1001" then
+ unitats_s_act <= unitats_s_act + 1;
+ else
+ unitats_s_act <= "0000";
+ if desenes_s_act /= "1001" then
+ desenes_s_act <= desenes_s_act + 1;
+ else
+ unitats_c_act <= "1011";
+ desenes_c_act <= "1011";
+ unitats_s_act <= "1010";
+ desenes_s_act <= "1111";
+ end if;
+ end if;
+ end if;
+ end if;
+ end if;
+ end if;
+ end process comptador;
+--
+-- registre
+ registre : process (clk100)
+ begin
+ if clk100'event and clk100 = '1' then
+ if clr_compt_reg = '1' then
+ desenes_s_mem <= "0000";
+ unitats_s_mem <= "0000";
+ desenes_c_mem <= "0000";
+ unitats_c_mem <= "0000";
+ elsif ld_registre = '1' then
+ desenes_s_mem <= desenes_s_act;
+ unitats_s_mem <= unitats_s_act;
+ desenes_c_mem <= desenes_c_act;
+ unitats_c_mem <= unitats_c_act;
+ end if;
+ end if;
+ end process registre;
+--
+-- selector actual/memoria
+ desenes_s <= desenes_s_act when sel_actual = '1' else
+ desenes_s_mem;
+ unitats_s <= unitats_s_act when sel_actual = '1' else
+ unitats_s_mem;
+ desenes_c <= desenes_c_act when sel_actual = '1' else
+ desenes_c_mem;
+ unitats_c <= unitats_c_act when sel_actual = '1' else
+ unitats_c_mem;
+--
+-- sortides de punt decimal
+ npd_desenes_s <= '1';
+ npd_unitats_s <= '1' when desenes_s = "1111" else
+ '0';
+ npd_desenes_c <= '1';
+ npd_unitats_c <= '1';
+--
+end estructural_funcional;

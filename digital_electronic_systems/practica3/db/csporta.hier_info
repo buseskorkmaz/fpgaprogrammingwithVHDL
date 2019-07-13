@@ -1,0 +1,28 @@
+|csporta
+clk50m => clk400.CLK
+clk50m => \divf1:cntdivf1[0].CLK
+clk50m => \divf1:cntdivf1[1].CLK
+clk50m => \divf1:cntdivf1[2].CLK
+clk50m => \divf1:cntdivf1[3].CLK
+clk50m => \divf1:cntdivf1[4].CLK
+clk50m => \divf1:cntdivf1[5].CLK
+clk50m => \divf1:cntdivf1[6].CLK
+clk50m => \divf1:cntdivf1[7].CLK
+clk50m => \divf1:cntdivf1[8].CLK
+clk50m => \divf1:cntdivf1[9].CLK
+clk50m => \divf1:cntdivf1[10].CLK
+clk50m => \divf1:cntdivf1[11].CLK
+clk50m => \divf1:cntdivf1[12].CLK
+clk50m => \divf1:cntdivf1[13].CLK
+clk50m => \divf1:cntdivf1[14].CLK
+clk50m => \divf1:cntdivf1[15].CLK
+fci => qfci.DATAIN
+fca => qfca.DATAIN
+npob => qpob.DATAIN
+cmd => qcmd.DATAIN
+pia <= pia.DB_MAX_OUTPUT_PORT_TYPE
+pai <= pai.DB_MAX_OUTPUT_PORT_TYPE
+enp <= enp.DB_MAX_OUTPUT_PORT_TYPE
+nledet <= nledet.DB_MAX_OUTPUT_PORT_TYPE
+
+

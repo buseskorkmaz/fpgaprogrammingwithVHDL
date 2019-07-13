@@ -1,0 +1,63 @@
+LIBRARY altera;
+LIBRARY cycloneiii;
+LIBRARY ieee;
+USE altera.altera_primitives_components.all;
+USE cycloneiii.cycloneiii_components.all;
+USE ieee.std_logic_1164.all;
+ENTITY metro_tb IS
+END;
+
+ARCHITECTURE metro_tb_arch OF metro_tb IS
+  SIGNAL nsensor : STD_LOGIC;
+  SIGNAL ne_final : STD_LOGIC;
+  SIGNAL led : std_logic_vector(3 downto 0);
+  SIGNAL ne_origen : STD_LOGIC;
+  SIGNAL clk_hf : STD_LOGIC;
+  COMPONENT metro
+    PORT(
+      nsensor : in STD_LOGIC;
+      ne_final : in STD_LOGIC;
+      led : out std_logic_vector(3 downto 0);
+      ne_origen : in STD_LOGIC;
+      clk_hf : in STD_LOGIC) ;
+  END COMPONENT;
+BEGIN
+  DUT: metro
+   PORT MAP(
+     nsensor => nsensor ,
+     ne_final => ne_final ,
+     led => led ,
+     ne_origen => ne_origen ,
+     clk_hf => clk_hf );
+  clock : process
+  begin
+    clk_hf <= '0';
+    wait for 10 ns;
+    clk_hf <= '1';
+    wait for ns;
+  end process clock;
+  sensors : process 
+  begin
+    ne_final <=  '1';
+    ne_origen <='1';
+    nsensor <= '1';
+    wait for 2 us;
+    for i in 0 to 20 loop
+      if i mod 8 = 0 then
+        ne_origen <= '0';
+        wait for 1 us;
+        ne_origen <= '1';
+      elsif i mod 4 = 0 then
+        ne_final <='0';
+        wait for 1 us;
+        ne_final <= '1';
+      else
+        nsensor <= '0';
+        wait for 1 us;
+        nsensor <= '1';
+      end if;
+      wait for 2 us;
+    end loop;
+  end process sensors;
+END ;
+  

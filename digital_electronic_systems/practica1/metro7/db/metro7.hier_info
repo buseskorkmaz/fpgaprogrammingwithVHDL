@@ -1,0 +1,184 @@
+|metro7
+led[0] <= gen-leds[0].DB_MAX_OUTPUT_PORT_TYPE
+led[1] <= gen-leds[1].DB_MAX_OUTPUT_PORT_TYPE
+led[2] <= gen-leds[2].DB_MAX_OUTPUT_PORT_TYPE
+led[3] <= gen-leds[3].DB_MAX_OUTPUT_PORT_TYPE
+led[4] <= gen-leds[4].DB_MAX_OUTPUT_PORT_TYPE
+led[5] <= gen-leds[5].DB_MAX_OUTPUT_PORT_TYPE
+led[6] <= gen-leds[6].DB_MAX_OUTPUT_PORT_TYPE
+clk_hf => divf:divf.clk_hf
+ne_final => on_som:on_som.naset
+ne_origen => on_som:on_som.narst
+nsensor => inst2.IN0
+
+
+|metro7|s_int:s_int
+osc => si.IN1
+osc => si.IN1
+osc => si.IN1
+osc => si.IN1
+osc => si.IN1
+osc => si.IN1
+osc => si.IN1
+q[0] => 74138:descod.a
+q[1] => 74138:descod.b
+q[2] => 74138:descod.c
+si[0] <= si.DB_MAX_OUTPUT_PORT_TYPE
+si[1] <= si.DB_MAX_OUTPUT_PORT_TYPE
+si[2] <= si.DB_MAX_OUTPUT_PORT_TYPE
+si[3] <= si.DB_MAX_OUTPUT_PORT_TYPE
+si[4] <= si.DB_MAX_OUTPUT_PORT_TYPE
+si[5] <= si.DB_MAX_OUTPUT_PORT_TYPE
+si[6] <= si.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|metro7|s_int:s_int|74138:descod
+Y7N <= 22.DB_MAX_OUTPUT_PORT_TYPE
+G1 => 8.IN0
+G2BN => 1.IN1
+G2AN => 1.IN2
+B => 10.IN0
+A => 9.IN0
+C => 11.IN0
+Y6N <= 21.DB_MAX_OUTPUT_PORT_TYPE
+Y5N <= 20.DB_MAX_OUTPUT_PORT_TYPE
+Y4N <= 19.DB_MAX_OUTPUT_PORT_TYPE
+Y3N <= 18.DB_MAX_OUTPUT_PORT_TYPE
+Y2N <= 17.DB_MAX_OUTPUT_PORT_TYPE
+Y1N <= 16.DB_MAX_OUTPUT_PORT_TYPE
+Y0N <= 15.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|metro7|divf:divf
+clk_hf => div2.CLK
+clk_hf => divlimit[0].CLK
+clk_hf => divlimit[1].CLK
+clk_hf => divlimit[2].CLK
+clk_hf => divlimit[3].CLK
+clk_hf => divlimit[4].CLK
+clk_hf => divlimit[5].CLK
+clk_hf => divlimit[6].CLK
+clk_hf => divlimit[7].CLK
+clk_hf => divlimit[8].CLK
+clk_hf => divlimit[9].CLK
+clk_hf => divlimit[10].CLK
+clk_hf => divlimit[11].CLK
+clk_hf => divlimit[12].CLK
+clk_hf => divlimit[13].CLK
+clk_hf => divlimit[14].CLK
+clk_hf => divlimit[15].CLK
+clk_hf => divlimit[16].CLK
+clk_hf => divlimit[17].CLK
+clk_hf => divlimit[18].CLK
+clk_hf => divlimit[19].CLK
+clk_hf => divlimit[20].CLK
+clk_hf => divlimit[21].CLK
+clk_hf => divlimit[22].CLK
+clk_hf => divlimit[23].CLK
+clk_lf <= div2.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|metro7|on_som:on_som
+sm <= gen_sm.DB_MAX_OUTPUT_PORT_TYPE
+narst => inst4.IN0
+narst => 4count:gen-q.CLRN
+naset => gen_sm.IN1
+naset => 4count:gen-q.SETN
+q[0] <= 4count:gen-q.QA
+q[1] <= 4count:gen-q.QB
+q[2] <= 4count:gen-q.QC
+clk => 4count:gen-q.CLK
+
+
+|metro7|on_som:on_som|4count:gen-q
+QA <= 46.DB_MAX_OUTPUT_PORT_TYPE
+CLRN => 97.IN0
+CLRN => 101.IN0
+CLRN => 107.IN0
+CLRN => 100.IN0
+CLRN => 99.IN0
+CLRN => 106.IN1
+CLRN => 105.IN0
+CLRN => 98.IN0
+A => 101.IN1
+A => 20.IN0
+SETN => 92.IN0
+CLK => 46.CLK
+CLK => 45.CLK
+CLK => 44.CLK
+CLK => 43.CLK
+LDN => 19.IN1
+LDN => 13.IN0
+LDN => 21.IN0
+LDN => 22.IN1
+LDN => 52.IN2
+LDN => 53.IN2
+LDN => 26.IN1
+LDN => 30.IN1
+CIN => 21.IN1
+CIN => 52.IN1
+CIN => 53.IN1
+CIN => 2.IN5
+CIN => 109.IN0
+QB <= 45.DB_MAX_OUTPUT_PORT_TYPE
+B => 100.IN1
+B => 23.IN0
+DNUP => 52.IN0
+DNUP => 85.IN0
+QC <= 44.DB_MAX_OUTPUT_PORT_TYPE
+C => 99.IN1
+C => 27.IN0
+QD <= 43.DB_MAX_OUTPUT_PORT_TYPE
+D => 98.IN2
+D => 31.IN0
+COUT <= 37.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|metro7|s_fix:s_fix
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+sm => sf.IN1
+q[0] => Equal0.IN2
+q[0] => Equal1.IN1
+q[0] => Equal2.IN2
+q[0] => Equal3.IN1
+q[0] => Equal4.IN2
+q[0] => Equal5.IN2
+q[0] => Equal6.IN2
+q[0] => Equal7.IN0
+q[1] => Equal0.IN0
+q[1] => Equal1.IN0
+q[1] => Equal2.IN1
+q[1] => Equal3.IN2
+q[1] => Equal4.IN1
+q[1] => Equal5.IN1
+q[1] => Equal6.IN1
+q[1] => Equal7.IN2
+q[2] => Equal0.IN1
+q[2] => Equal1.IN2
+q[2] => Equal2.IN0
+q[2] => Equal3.IN0
+q[2] => Equal4.IN0
+q[2] => Equal5.IN0
+q[2] => Equal6.IN0
+q[2] => Equal7.IN1
+sf[0] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+sf[1] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+sf[2] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+sf[3] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+sf[4] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+sf[5] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+sf[6] <= sf.DB_MAX_OUTPUT_PORT_TYPE
+
+

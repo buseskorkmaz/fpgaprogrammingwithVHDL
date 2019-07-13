@@ -1,0 +1,59 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\Dell\Desktop\upc\digital_electronic_systems\practica2\pr2\biblioteques_modelsim
+Ebcd_err_nss
+Z1 w1545417178
+Z2 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z3 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z4 dC:\Users\Dell\Desktop\upc\digital_electronic_systems\practica2\pr2\biblioteques_modelsim
+Z5 8C:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/bcd_err_nss.vhd
+Z6 FC:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/bcd_err_nss.vhd
+l0
+L3
+VYKNNgFlZziX]?Scgefi_k2
+Z7 OV;C;10.1d;51
+32
+Z8 !s108 1545821757.916000
+Z9 !s90 -reportprogress|300|-work|work|C:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/bcd_err_nss.vhd|
+Z10 !s107 C:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/bcd_err_nss.vhd|
+Z11 o-work work -O0
+Z12 tExplicit 1
+!s100 Lb4NL9A2KS>dzbcTKYFG>1
+!i10b 1
+Ataula_veritat
+R2
+R3
+DEx4 work 11 bcd_err_nss 0 22 YKNNgFlZziX]?Scgefi_k2
+l10
+L9
+VkIJ2a3Ohg2G`MC_iPN?4e1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+!s100 PUDG7zQXZ`1JT?4OOZ>UJ1
+!i10b 1
+Pmoduls
+R2
+R3
+w1545417330
+R4
+8C:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/moduls.vhd
+FC:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/moduls.vhd
+l0
+L3
+Vcha]L5VZn]a@aA><Lflg@0
+!s100 E2`7zDdh@[SPISlA@l5?O0
+R7
+32
+!i10b 1
+!s108 1545821760.025000
+!s90 -reportprogress|300|-work|work|C:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/moduls.vhd|
+!s107 C:/Users/Dell/Desktop/upc/digital_electronic_systems/practica2/pr2/biblioteques_quartus/bibsed/moduls.vhd|
+R11
+R12
